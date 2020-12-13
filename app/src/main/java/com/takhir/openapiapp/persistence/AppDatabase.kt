@@ -6,7 +6,7 @@ import com.takhir.openapiapp.models.AccountProperties
 import com.takhir.openapiapp.models.AuthToken
 
 @Database(entities = [AuthToken::class, AccountProperties::class], version = 1)
-abstract class AppDatabase: RoomDatabase {
+abstract class AppDatabase: RoomDatabase() {
 
     companion object {
 
