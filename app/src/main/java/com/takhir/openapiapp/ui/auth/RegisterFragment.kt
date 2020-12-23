@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.takhir.openapiapp.R
 
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseAuthFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

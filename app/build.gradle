@@ -26,14 +26,9 @@ android {
         }
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
-
-//    при обновлении студии на 4 версию
-//    buildFeatures {
-//        viewBinding = true
-//    }
 
     buildTypes {
         release {

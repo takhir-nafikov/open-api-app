@@ -12,7 +12,7 @@ import com.takhir.openapiapp.R
 import com.takhir.openapiapp.databinding.FragmentLauncherBinding
 
 
-class LauncherFragment : Fragment() {
+class LauncherFragment : BaseAuthFragment() {
 
     private val binding: FragmentLauncherBinding by viewBinding(CreateMethod.INFLATE)
 

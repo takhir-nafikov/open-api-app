@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.takhir.openapiapp.R
 
 
-class ForgotPasswordFragment : Fragment() {
+class ForgotPasswordFragment : BaseAuthFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
