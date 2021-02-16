@@ -2,7 +2,6 @@ package com.takhir.openapiapp.ui.auth
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import com.takhir.openapiapp.R
 import com.takhir.openapiapp.util.ApiEmptyResponse
 import com.takhir.openapiapp.util.ApiErrorResponse
 import com.takhir.openapiapp.util.ApiSuccessResponse
-import com.takhir.openapiapp.util.GenericApiResponse
 
 
 class LoginFragment : BaseAuthFragment() {
