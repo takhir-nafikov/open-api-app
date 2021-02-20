@@ -2,8 +2,8 @@ package com.takhir.openapiapp.util
 
 class Constants {
 
-    companion object{
+  companion object{
 
-        const val BASE_URL = "https://open-api.xyz/api/"
-    }
+    const val BASE_URL = "https://open-api.xyz/api/"
+  }
 }

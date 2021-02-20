@@ -5,8 +5,8 @@ import com.takhir.openapiapp.R
 import com.takhir.openapiapp.ui.BaseActivity
 
 class AuthActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_auth)
+  }
 }

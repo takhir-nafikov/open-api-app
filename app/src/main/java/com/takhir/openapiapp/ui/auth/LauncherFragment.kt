@@ -14,44 +14,44 @@ import com.takhir.openapiapp.databinding.FragmentLauncherBinding
 
 class LauncherFragment : BaseAuthFragment() {
 
-    private val binding: FragmentLauncherBinding by viewBinding(CreateMethod.INFLATE)
+  private val binding: FragmentLauncherBinding by viewBinding(CreateMethod.INFLATE)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return binding.root
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    // Inflate the layout for this fragment
+    return binding.root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    binding.register.setOnClickListener {
+      navRegistration()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.register.setOnClickListener {
-            navRegistration()
-        }
-
-        binding.login.setOnClickListener {
-            navLogin()
-        }
-
-        binding.forgotPassword.setOnClickListener {
-            navForgotPassword()
-        }
-
-        binding.focusableView.requestFocus()
+    binding.login.setOnClickListener {
+      navLogin()
     }
 
-    private fun navForgotPassword() {
-        findNavController().navigate(R.id.action_launcherFragment_to_forgotPasswordFragment)
+    binding.forgotPassword.setOnClickListener {
+      navForgotPassword()
     }
 
-    private fun navLogin() {
-        findNavController().navigate(R.id.action_launcherFragment_to_loginFragment)
-    }
+    binding.focusableView.requestFocus()
+  }
 
-    private fun navRegistration() {
-        findNavController().navigate(R.id.action_launcherFragment_to_registerFragment)
-    }
+  private fun navForgotPassword() {
+    findNavController().navigate(R.id.action_launcherFragment_to_forgotPasswordFragment)
+  }
+
+  private fun navLogin() {
+    findNavController().navigate(R.id.action_launcherFragment_to_loginFragment)
+  }
+
+  private fun navRegistration() {
+    findNavController().navigate(R.id.action_launcherFragment_to_registerFragment)
+  }
 
 }

@@ -11,22 +11,22 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [
-        AndroidInjectionModule::class,
-        AppModule::class,
-        ActivityBuildersModule::class,
-        ViewModelFactoryModule::class
-    ]
+  modules = [
+    AndroidInjectionModule::class,
+    AppModule::class,
+    ActivityBuildersModule::class,
+    ViewModelFactoryModule::class
+  ]
 )
 interface AppComponent: AndroidInjector<BaseApplication> {
-    val sessionManager: SessionManager
+  val sessionManager: SessionManager
 
-    @Component.Builder
-    interface Builder {
+  @Component.Builder
+  interface Builder {
 
-        @BindsInstance
-        fun application(application: Application) : Builder
+    @BindsInstance
+    fun application(application: Application) : Builder
 
-        fun build(): AppComponent
-    }
+    fun build(): AppComponent
+  }
 }

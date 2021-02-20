@@ -10,15 +10,15 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class AuthFragmentBuildersModule {
 
-    @ContributesAndroidInjector
-    abstract fun contributeLauncherFragment(): LauncherFragment
+  @ContributesAndroidInjector
+  abstract fun contributeLauncherFragment(): LauncherFragment
 
-    @ContributesAndroidInjector
-    abstract fun contributeLoginFragment(): LoginFragment
+  @ContributesAndroidInjector
+  abstract fun contributeLoginFragment(): LoginFragment
 
-    @ContributesAndroidInjector
-    abstract fun contributeRegisterFragment(): RegisterFragment
+  @ContributesAndroidInjector
+  abstract fun contributeRegisterFragment(): RegisterFragment
 
-    @ContributesAndroidInjector
-    abstract fun contributeForgotPasswordFragment(): ForgotPasswordFragment
+  @ContributesAndroidInjector
+  abstract fun contributeForgotPasswordFragment(): ForgotPasswordFragment
 }

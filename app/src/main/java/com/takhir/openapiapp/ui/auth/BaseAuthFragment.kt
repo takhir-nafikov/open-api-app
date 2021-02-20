@@ -9,18 +9,18 @@ import javax.inject.Inject
 
 abstract class BaseAuthFragment : DaggerFragment() {
 
-    val TAG = "BaseAuthFragment"
-    
-    @Inject
-    lateinit var providerFactory: ViewModelProviderFactory
+  val TAG = "BaseAuthFragment"
 
-    lateinit var viewModel: AuthViewModel
+  @Inject
+  lateinit var providerFactory: ViewModelProviderFactory
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+  lateinit var viewModel: AuthViewModel
 
-        viewModel = activity?.run {
-            ViewModelProvider(this, providerFactory).get(AuthViewModel::class.java)
-        }?: throw Exception("Invalid Activity")
-    }
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    viewModel = activity?.run {
+      ViewModelProvider(this, providerFactory).get(AuthViewModel::class.java)
+    }?: throw Exception("Invalid Activity")
+  }
 }

@@ -12,27 +12,27 @@ import retrofit2.Retrofit
 @Module
 class AuthModule {
 
-    @AuthScope
-    @Provides
-    fun provideFakeApiService(retrofitBuilder: Retrofit.Builder): OpenApiAuthService {
-        return retrofitBuilder
-            .build()
-            .create(OpenApiAuthService::class.java)
-    }
+  @AuthScope
+  @Provides
+  fun provideFakeApiService(retrofitBuilder: Retrofit.Builder): OpenApiAuthService {
+    return retrofitBuilder
+      .build()
+      .create(OpenApiAuthService::class.java)
+  }
 
-    @AuthScope
-    @Provides
-    fun provideAuthRepository(
-        sessionManager: SessionManager,
-        authTokenDao: AuthTokenDao,
-        accountPropertiesDao: AccountPropertiesDao,
-        openApiAuthService: OpenApiAuthService
-    ): AuthRepository {
-        return AuthRepository(
-            authTokenDao,
-            accountPropertiesDao,
-            openApiAuthService,
-            sessionManager
-        )
-    }
+  @AuthScope
+  @Provides
+  fun provideAuthRepository(
+    sessionManager: SessionManager,
+    authTokenDao: AuthTokenDao,
+    accountPropertiesDao: AccountPropertiesDao,
+    openApiAuthService: OpenApiAuthService
+  ): AuthRepository {
+    return AuthRepository(
+      authTokenDao,
+      accountPropertiesDao,
+      openApiAuthService,
+      sessionManager
+    )
+  }
 }

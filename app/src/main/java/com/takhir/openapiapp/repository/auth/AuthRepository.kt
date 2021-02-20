@@ -13,23 +13,23 @@ import javax.inject.Inject
 class AuthRepository
 @Inject
 constructor(
-    val authTokenDao: AuthTokenDao,
-    val accountPropertiesDao: AccountPropertiesDao,
-    val openApiAuthService: OpenApiAuthService,
-    val sessionManager: SessionManager
+  val authTokenDao: AuthTokenDao,
+  val accountPropertiesDao: AccountPropertiesDao,
+  val openApiAuthService: OpenApiAuthService,
+  val sessionManager: SessionManager
 )
 {
 
-    fun testLoginRequest(email: String, password: String): LiveData<GenericApiResponse<LoginResponse>> {
-        return openApiAuthService.login(email, password)
-    }
+  fun testLoginRequest(email: String, password: String): LiveData<GenericApiResponse<LoginResponse>> {
+    return openApiAuthService.login(email, password)
+  }
 
-    fun testRegRequest(
-        email: String,
-        username: String,
-        password: String,
-        confirmPassword: String
-    ): LiveData<GenericApiResponse<RegistrationResponse>> {
-        return openApiAuthService.register(email, username, password, confirmPassword)
-    }
+  fun testRegRequest(
+    email: String,
+    username: String,
+    password: String,
+    confirmPassword: String
+  ): LiveData<GenericApiResponse<RegistrationResponse>> {
+    return openApiAuthService.register(email, username, password, confirmPassword)
+  }
 }

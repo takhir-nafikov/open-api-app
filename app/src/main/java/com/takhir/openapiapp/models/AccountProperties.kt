@@ -9,19 +9,19 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "account_properties")
 data class AccountProperties(
 
-    @SerializedName("pk")
-    @Expose
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "pk")
-    var pk: Int,
+  @SerializedName("pk")
+  @Expose
+  @PrimaryKey(autoGenerate = false)
+  @ColumnInfo(name = "pk")
+  var pk: Int,
 
-    @SerializedName("email")
-    @Expose
-    @ColumnInfo(name = "email")
-    var email: String,
+  @SerializedName("email")
+  @Expose
+  @ColumnInfo(name = "email")
+  var email: String,
 
-    @SerializedName("username")
-    @Expose
-    @ColumnInfo(name = "username")
-    var username: String
+  @SerializedName("username")
+  @Expose
+  @ColumnInfo(name = "username")
+  var username: String
 )

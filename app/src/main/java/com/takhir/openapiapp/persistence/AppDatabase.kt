@@ -8,13 +8,13 @@ import com.takhir.openapiapp.models.AuthToken
 @Database(entities = [AuthToken::class, AccountProperties::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
 
-    companion object {
+  companion object {
 
-        const val DATABASE_NAME = "app_db"
-    }
+    const val DATABASE_NAME = "app_db"
+  }
 
-    abstract fun getAuthTokenDao(): AuthTokenDao
+  abstract fun getAuthTokenDao(): AuthTokenDao
 
-    abstract fun getAccountPropertiesDao(): AccountPropertiesDao
+  abstract fun getAccountPropertiesDao(): AccountPropertiesDao
 
 }
