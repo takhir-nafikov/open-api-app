@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.takhir.openapiapp.databinding.FragmentLoginBinding
+import com.takhir.openapiapp.models.AuthToken
 import com.takhir.openapiapp.ui.auth.state.LoginFields
 
 
@@ -28,6 +29,15 @@ class LoginFragment : BaseAuthFragment() {
     super.onViewCreated(view, savedInstanceState)
 
     subscribeObservers()
+
+    binding.loginButton.setOnClickListener {
+      viewModel.setAuthToken(
+        AuthToken(
+          1,
+          "kdsfhlkasjdf"
+        )
+      )
+    }
   }
 
   fun subscribeObservers() {
