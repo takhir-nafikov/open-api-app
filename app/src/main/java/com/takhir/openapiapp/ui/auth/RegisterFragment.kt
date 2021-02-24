@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.takhir.openapiapp.databinding.FragmentRegisterBinding
-import com.takhir.openapiapp.ui.auth.state.LoginFields
+import com.takhir.openapiapp.ui.auth.state.RegisterAttemptEvent
 import com.takhir.openapiapp.ui.auth.state.RegistrationFields
 
 
@@ -27,10 +27,14 @@ class RegisterFragment : BaseAuthFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    binding.registerButton.setOnClickListener {
+      register()
+    }
+
     subscribeObservers()
   }
 
-  fun subscribeObservers() {
+  private fun subscribeObservers() {
     viewModel.viewState.observe(viewLifecycleOwner, Observer { state ->
       state.registrationFields?.let { registrationFields ->
         registrationFields.registrationEmail?.let { binding.inputEmail.setText(it) }
@@ -39,6 +43,17 @@ class RegisterFragment : BaseAuthFragment() {
         registrationFields.registrationConfirmPassword?.let { binding.inputPasswordConfirm.setText(it) }
       }
     })
+  }
+
+  fun register() {
+    viewModel.setStateEvent(
+      RegisterAttemptEvent(
+        binding.inputEmail.text.toString(),
+        binding.inputUsername.text.toString(),
+        binding.inputPassword.text.toString(),
+        binding.inputPasswordConfirm.text.toString()
+      )
+    )
   }
 
   override fun onDestroyView() {

@@ -1,20 +1,12 @@
 package com.takhir.openapiapp.ui.auth
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.takhir.openapiapp.api.auth.network_responses.LoginResponse
-import com.takhir.openapiapp.api.auth.network_responses.RegistrationResponse
 import com.takhir.openapiapp.models.AuthToken
 import com.takhir.openapiapp.repository.auth.AuthRepository
 import com.takhir.openapiapp.ui.BaseViewModel
 import com.takhir.openapiapp.ui.DataState
-import com.takhir.openapiapp.ui.auth.state.AuthStateEvent
-import com.takhir.openapiapp.ui.auth.state.AuthStateEvent.*
-import com.takhir.openapiapp.ui.auth.state.AuthViewState
-import com.takhir.openapiapp.ui.auth.state.LoginFields
-import com.takhir.openapiapp.ui.auth.state.RegistrationFields
+import com.takhir.openapiapp.ui.auth.state.*
 import com.takhir.openapiapp.util.AbsentLiveData
-import com.takhir.openapiapp.util.GenericApiResponse
 import javax.inject.Inject
 
 class AuthViewModel
@@ -27,11 +19,19 @@ constructor(
   override fun handleStateEvent(stateEvent: AuthStateEvent): LiveData<DataState<AuthViewState>> {
     when (stateEvent) {
       is LoginAttemptEvent -> {
-        return AbsentLiveData.create()
+        return authRepository.attemptLogin(
+          stateEvent.email,
+          stateEvent.password
+        )
       }
 
       is RegisterAttemptEvent -> {
-        return AbsentLiveData.create()
+        return authRepository.attemptRegistration(
+          stateEvent.email,
+          stateEvent.username,
+          stateEvent.password,
+          stateEvent.confirmPassword
+        )
       }
 
       is CheckPreviousAuthEvent -> {

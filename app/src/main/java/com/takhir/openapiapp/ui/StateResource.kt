@@ -8,9 +8,9 @@ data class StateError(val response: Response)
 data class Response(val message: String?, val responseType: ResponseType)
 
 sealed class ResponseType {
-  class Toast: ResponseType()
-  class Dialog: ResponseType()
-  class None: ResponseType()
+  object Toast : ResponseType()
+  object Dialog : ResponseType()
+  object None : ResponseType()
 }
 
 /**

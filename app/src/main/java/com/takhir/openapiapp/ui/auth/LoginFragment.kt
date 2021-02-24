@@ -9,6 +9,8 @@ import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.takhir.openapiapp.databinding.FragmentLoginBinding
 import com.takhir.openapiapp.models.AuthToken
+import com.takhir.openapiapp.ui.auth.state.AuthStateEvent
+import com.takhir.openapiapp.ui.auth.state.LoginAttemptEvent
 import com.takhir.openapiapp.ui.auth.state.LoginFields
 
 
@@ -31,12 +33,7 @@ class LoginFragment : BaseAuthFragment() {
     subscribeObservers()
 
     binding.loginButton.setOnClickListener {
-      viewModel.setAuthToken(
-        AuthToken(
-          1,
-          "kdsfhlkasjdf"
-        )
-      )
+      login()
     }
   }
 
@@ -47,6 +44,15 @@ class LoginFragment : BaseAuthFragment() {
         loginFields.loginPassword?.let { binding.inputPassword.setText(it) }
       }
     })
+  }
+
+  fun login() {
+    viewModel.setStateEvent(
+      LoginAttemptEvent(
+        binding.inputEmail.text.toString(),
+        binding.inputPassword.text.toString()
+      )
+    )
   }
 
   override fun onDestroyView() {
