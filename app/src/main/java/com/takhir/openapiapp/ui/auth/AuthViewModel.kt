@@ -40,6 +40,10 @@ constructor(
     }
   }
 
+  override fun initNewViewState(): AuthViewState {
+    return AuthViewState()
+  }
+
   fun setRegistrationField(registrationFields: RegistrationFields) {
     val update = getCurrentViewStateOrNew()
     if (update.registrationFields == registrationFields) return
@@ -61,7 +65,13 @@ constructor(
     _viewState.value = update
   }
 
-  override fun initNewViewState(): AuthViewState {
-    return AuthViewState()
+  fun cancelActiveJobs(){
+    authRepository.cancelActiveJobs()
   }
+
+  override fun onCleared() {
+    super.onCleared()
+    cancelActiveJobs()
+  }
+
 }

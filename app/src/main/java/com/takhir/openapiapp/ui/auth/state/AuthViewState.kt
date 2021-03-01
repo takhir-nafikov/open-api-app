@@ -66,7 +66,7 @@ data class LoginFields(
 
     }
   }
-  fun isValidForLogin(): String{
+  fun isValidForLogin(): String {
 
     if(loginEmail.isNullOrEmpty()
       || loginPassword.isNullOrEmpty()){
