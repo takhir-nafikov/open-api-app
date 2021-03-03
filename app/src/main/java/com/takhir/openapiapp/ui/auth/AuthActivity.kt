@@ -3,12 +3,16 @@ package com.takhir.openapiapp.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.CreateMethod
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.takhir.openapiapp.R
+import com.takhir.openapiapp.databinding.ActivityAuthBinding
 import com.takhir.openapiapp.ui.BaseActivity
 import com.takhir.openapiapp.ui.ResponseType
 import com.takhir.openapiapp.ui.main.MainActivity
@@ -22,9 +26,11 @@ class AuthActivity : BaseActivity(),  NavController.OnDestinationChangedListener
 
   lateinit var viewModel: AuthViewModel
 
+  private val  binding: ActivityAuthBinding by viewBinding(CreateMethod.INFLATE)
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_auth)
+    setContentView(binding.root)
 
     viewModel = ViewModelProvider(this, providerFactory).get(AuthViewModel::class.java)
     findNavController(R.id.auth_nav_host_fragment).addOnDestinationChangedListener(this)
@@ -40,8 +46,13 @@ class AuthActivity : BaseActivity(),  NavController.OnDestinationChangedListener
     viewModel.cancelActiveJobs()
   }
 
+  override fun displayProgressBar(boolean: Boolean) {
+    binding.progressBar.isVisible = boolean
+  }
+
   private fun subscribeObservers() {
     viewModel.dataState.observe(this, Observer { dataState ->
+      onDataStateChange(dataState)
       dataState.data?.let { data ->
 
         data.data?.let { event ->
@@ -49,22 +60,6 @@ class AuthActivity : BaseActivity(),  NavController.OnDestinationChangedListener
             authViewState.authToken?.let {
               Log.d(TAG, "AuthActivity, DataState: $it")
               viewModel.setAuthToken(it)
-            }
-          }
-        }
-
-        data.response?.let { event ->
-          event.getContentIfNotHandled()?.let { response ->
-            when(response.responseType) {
-              is ResponseType.Dialog -> {
-                // inflate error dialog
-              }
-              is ResponseType.Toast -> {
-                // show toast
-              }
-              is ResponseType.None -> {
-                Log.e(TAG, "AuthActivity, Response: ${response.message}" )
-              }
             }
           }
         }

@@ -3,6 +3,7 @@ package com.takhir.openapiapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -32,6 +33,10 @@ class MainActivity : BaseActivity() {
         navAuthActivity()
       }
     })
+  }
+
+  override fun displayProgressBar(boolean: Boolean) {
+    binding.progressBar.isVisible = boolean
   }
 
   private fun navAuthActivity() {
