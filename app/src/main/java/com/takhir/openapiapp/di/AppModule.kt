@@ -1,6 +1,8 @@
 package com.takhir.openapiapp.di
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -14,6 +16,7 @@ import com.takhir.openapiapp.persistence.AppDatabase.Companion.DATABASE_NAME
 import com.takhir.openapiapp.persistence.AuthTokenDao
 import com.takhir.openapiapp.util.Constants
 import com.takhir.openapiapp.util.LiveDataCallAdapterFactory
+import com.takhir.openapiapp.util.PreferenceKeys
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -22,6 +25,18 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
+
+  @Singleton
+  @Provides
+  fun provideSharedPreferences(application: Application): SharedPreferences {
+    return application.getSharedPreferences(PreferenceKeys.APP_PREFERENCES, Context.MODE_PRIVATE)
+  }
+
+  @Singleton
+  @Provides
+  fun provideSharedPrefEditor(sharedPreferences: SharedPreferences): SharedPreferences.Editor {
+    return sharedPreferences.edit()
+  }
 
   @Singleton
   @Provides

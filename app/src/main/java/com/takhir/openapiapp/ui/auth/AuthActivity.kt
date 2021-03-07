@@ -3,6 +3,7 @@ package com.takhir.openapiapp.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +16,10 @@ import com.takhir.openapiapp.R
 import com.takhir.openapiapp.databinding.ActivityAuthBinding
 import com.takhir.openapiapp.ui.BaseActivity
 import com.takhir.openapiapp.ui.ResponseType
+import com.takhir.openapiapp.ui.auth.state.AuthStateEvent
+import com.takhir.openapiapp.ui.auth.state.CheckPreviousAuthEvent
 import com.takhir.openapiapp.ui.main.MainActivity
+import com.takhir.openapiapp.util.SuccessHandling.Companion.RESPONSE_CHECK_PREVIOUS_AUTH_USER_DONE
 import com.takhir.openapiapp.viewmodels.ViewModelProviderFactory
 import javax.inject.Inject
 
@@ -36,6 +40,7 @@ class AuthActivity : BaseActivity(),  NavController.OnDestinationChangedListener
     findNavController(R.id.auth_nav_host_fragment).addOnDestinationChangedListener(this)
 
     subscribeObservers()
+    checkPreviousAuthUser()
   }
 
   override fun onDestinationChanged(
@@ -44,10 +49,6 @@ class AuthActivity : BaseActivity(),  NavController.OnDestinationChangedListener
     arguments: Bundle?
   ) {
     viewModel.cancelActiveJobs()
-  }
-
-  override fun displayProgressBar(boolean: Boolean) {
-    binding.progressBar.isVisible = boolean
   }
 
   private fun subscribeObservers() {
@@ -60,6 +61,15 @@ class AuthActivity : BaseActivity(),  NavController.OnDestinationChangedListener
             authViewState.authToken?.let {
               Log.d(TAG, "AuthActivity, DataState: $it")
               viewModel.setAuthToken(it)
+            }
+          }
+        }
+        data.response?.let{event ->
+          event.peekContent().let{ response ->
+            response.message?.let{ message ->
+              if(message.equals(RESPONSE_CHECK_PREVIOUS_AUTH_USER_DONE)){
+                onFinishCheckPreviousAuthUser()
+              }
             }
           }
         }
@@ -84,5 +94,17 @@ class AuthActivity : BaseActivity(),  NavController.OnDestinationChangedListener
     val intent = Intent(this, MainActivity::class.java)
     startActivity(intent)
     finish()
+  }
+
+  private fun checkPreviousAuthUser() {
+    viewModel.setStateEvent(CheckPreviousAuthEvent)
+  }
+
+  private fun onFinishCheckPreviousAuthUser() {
+    binding.fragmentContainer.visibility = View.VISIBLE
+  }
+
+  override fun displayProgressBar(boolean: Boolean) {
+    binding.progressBar.isVisible = boolean
   }
 }
