@@ -4,6 +4,10 @@ import com.takhir.openapiapp.di.auth.AuthFragmentBuildersModule
 import com.takhir.openapiapp.di.auth.AuthModule
 import com.takhir.openapiapp.di.auth.AuthScope
 import com.takhir.openapiapp.di.auth.AuthViewModelModule
+import com.takhir.openapiapp.di.main.MainFragmentBuildersModule
+import com.takhir.openapiapp.di.main.MainModule
+import com.takhir.openapiapp.di.main.MainScope
+import com.takhir.openapiapp.di.main.MainViewModelModule
 import com.takhir.openapiapp.ui.auth.AuthActivity
 import com.takhir.openapiapp.ui.main.MainActivity
 import dagger.Module
@@ -18,6 +22,9 @@ abstract class ActivityBuildersModule {
   )
   abstract fun contributeAuthActivity(): AuthActivity
 
-  @ContributesAndroidInjector
+  @MainScope
+  @ContributesAndroidInjector(
+    modules = [MainModule::class, MainFragmentBuildersModule::class, MainViewModelModule::class]
+  )
   abstract fun contributeMainActivity(): MainActivity
 }
