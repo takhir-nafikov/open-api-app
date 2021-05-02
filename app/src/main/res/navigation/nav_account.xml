@@ -37,7 +37,7 @@
         tools:layout="@layout/fragment_change_password" >
 
         <action
-            android:id="@+id/action_changePasswordFragment_to_accountFragment"
+            android:id="@+id/action_changePasswordFragment_to_home"
             app:destination="@id/accountFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
@@ -55,7 +55,7 @@
         tools:layout="@layout/fragment_update_account" >
 
         <action
-            android:id="@+id/action_updateAccountFragment_to_accountFragment"
+            android:id="@+id/action_updateAccountFragment_to_home"
             app:destination="@id/accountFragment"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
