@@ -7,7 +7,7 @@ import dagger.android.support.DaggerFragment
 
 abstract class BaseCreateBlogFragment : DaggerFragment() {
 
-  val TAG: String = "BaseCreateBlogFragment"
+  val TAG: String = "AppDebug"
 
   lateinit var stateChangeListener: DataStateChangeListener
 
