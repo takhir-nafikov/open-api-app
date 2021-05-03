@@ -62,7 +62,9 @@ class MainActivity : BaseActivity(),
     }
   }
 
-  override fun onGraphChanged() {}
+  override fun onGraphChanged() {
+    expandAppbar()
+  }
 
   override fun onReselectNavItem(
     navController: NavController,
@@ -137,5 +139,9 @@ class MainActivity : BaseActivity(),
     val intent = Intent(this, AuthActivity::class.java)
     startActivity(intent)
     finish()
+  }
+
+  private fun expandAppbar() {
+    binding.appBar.setExpanded(true)
   }
 }
