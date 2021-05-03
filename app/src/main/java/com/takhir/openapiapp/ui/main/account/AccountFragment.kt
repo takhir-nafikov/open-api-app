@@ -14,8 +14,6 @@ class AccountFragment : BaseAccountFragment() {
 
   private val binding: FragmentAccountBinding by viewBinding(CreateMethod.INFLATE)
 
-  @Inject
-  lateinit var sessionManager: SessionManager
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +32,7 @@ class AccountFragment : BaseAccountFragment() {
     }
 
     binding.logoutButton.setOnClickListener {
-      sessionManager.logout()
+      viewModel.logout()
     }
   }
 
