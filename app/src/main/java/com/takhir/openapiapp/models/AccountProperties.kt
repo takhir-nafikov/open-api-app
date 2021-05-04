@@ -24,4 +24,17 @@ data class AccountProperties(
   @Expose
   @ColumnInfo(name = "username")
   var username: String
-)
+) {
+
+  override fun equals(other: Any?): Boolean {
+    if (javaClass != other?.javaClass) return false
+
+    other as AccountProperties
+
+    if (pk != other.pk) return false
+    if (email != other.email) return false
+    if (username != other.username) return false
+
+    return true
+  }
+}

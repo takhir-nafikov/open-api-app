@@ -50,9 +50,10 @@ constructor(
       return returnErrorResponse(loginFieldErrors, ResponseType.Dialog)
     }
 
-    return object: NetworkBoundResource<LoginResponse, AuthViewState>(
+    return object: NetworkBoundResource<LoginResponse, Any,  AuthViewState>(
       sessionManager.isConnectedToTheInternet(),
-      true
+      true,
+      false
     ) {
 
       override suspend fun createCacheRequestAndReturn() {
@@ -108,6 +109,12 @@ constructor(
         repositoryJob = job
       }
 
+      override fun loadFromCache(): LiveData<AuthViewState> {
+        return AbsentLiveData.create()
+      }
+
+      override suspend fun updateLocalDb(cacheObject: Any?) {}
+
     }.asLiveData()
   }
 
@@ -122,9 +129,10 @@ constructor(
       return returnErrorResponse(registrationFields, ResponseType.Dialog)
     }
 
-    return object: NetworkBoundResource<RegistrationResponse, AuthViewState>(
+    return object: NetworkBoundResource<RegistrationResponse, Any,  AuthViewState>(
       sessionManager.isConnectedToTheInternet(),
-      true
+      true,
+      false
     ) {
 
       override suspend fun createCacheRequestAndReturn() {
@@ -188,6 +196,12 @@ constructor(
         repositoryJob = job
       }
 
+      override fun loadFromCache(): LiveData<AuthViewState> {
+        return AbsentLiveData.create()
+      }
+
+      override suspend fun updateLocalDb(cacheObject: Any?) {}
+
     }.asLiveData()
   }
 
@@ -198,8 +212,9 @@ constructor(
       Log.d(TAG, "checkPreviousAuthUser: No previously authenticated user found.")
       return returnNoTokenFound()
     } else {
-      return object: NetworkBoundResource<Void, AuthViewState>(
+      return object: NetworkBoundResource<Void, Any, AuthViewState>(
         sessionManager.isConnectedToTheInternet(),
+        false,
         false
       ){
 
@@ -246,6 +261,12 @@ constructor(
           repositoryJob?.cancel()
           repositoryJob = job
         }
+
+        override fun loadFromCache(): LiveData<AuthViewState> {
+          return AbsentLiveData.create()
+        }
+
+        override suspend fun updateLocalDb(cacheObject: Any?) {}
 
       }.asLiveData()
     }
