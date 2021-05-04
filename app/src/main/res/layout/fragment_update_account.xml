@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.account.UpdateAccountFragment"
-    android:fillViewport="true"
     android:background="#fff">
 
     <androidx.constraintlayout.widget.ConstraintLayout

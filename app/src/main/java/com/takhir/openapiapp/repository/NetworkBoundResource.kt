@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers.Main
 abstract class NetworkBoundResource<ResponseObject, CacheObject,  ViewStateType>(
   isNetworkAvailable: Boolean,
   isNetworkRequest: Boolean,
+  shouldCancelIfNoInternet: Boolean,
   shouldLoadFromCache: Boolean
 ) {
 
@@ -44,38 +45,54 @@ abstract class NetworkBoundResource<ResponseObject, CacheObject,  ViewStateType>
 
     if (isNetworkRequest) {
       if (isNetworkAvailable) {
-        coroutineScope.launch {
-          // simulate delay
-          delay(TESTING_NETWORK_DELAY)
-
-          withContext(Main) {
-            // make call
-            val apiResponse = createCall()
-            result.addSource(apiResponse) { response ->
-              result.removeSource(apiResponse)
-
-              coroutineScope.launch {
-                handleNetworkCall(response)
-              }
-            }
-          }
-        }
-
-        GlobalScope.launch(IO) {
-          delay(NETWORK_TIMEOUT)
-
-          if (!job.isCompleted) {
-            Log.e(TAG, "NetworkBoundResource: JOB NETWORK TIMEOUT.")
-            job.cancel(CancellationException(UNABLE_TO_RESOLVE_HOST))
-          }
-        }
+        doNetworkRequest()
       } else {
-        onErrorReturn(UNABLE_TODO_OPERATION_WO_INTERNET, true, false)
+        if (shouldCancelIfNoInternet) {
+          onErrorReturn(
+            UNABLE_TODO_OPERATION_WO_INTERNET,
+            shouldUseDialog = true,
+            shouldUseToast = false
+          )
+        } else {
+          doCacheRequest()
+        }
       }
     } else {
-      coroutineScope.launch {
-        delay(TESTING_CACHE_DELAY)
-        createCacheRequestAndReturn()
+        doCacheRequest()
+    }
+  }
+
+  private fun doCacheRequest() {
+    coroutineScope.launch {
+      delay(TESTING_CACHE_DELAY)
+      createCacheRequestAndReturn()
+    }
+  }
+
+  private fun doNetworkRequest() {
+    coroutineScope.launch {
+      // simulate delay
+      delay(TESTING_NETWORK_DELAY)
+
+      withContext(Main) {
+        // make call
+        val apiResponse = createCall()
+        result.addSource(apiResponse) { response ->
+          result.removeSource(apiResponse)
+
+          coroutineScope.launch {
+            handleNetworkCall(response)
+          }
+        }
+      }
+    }
+
+    GlobalScope.launch(IO) {
+      delay(NETWORK_TIMEOUT)
+
+      if (!job.isCompleted) {
+        Log.e(TAG, "NetworkBoundResource: JOB NETWORK TIMEOUT.")
+        job.cancel(CancellationException(UNABLE_TO_RESOLVE_HOST))
       }
     }
   }
