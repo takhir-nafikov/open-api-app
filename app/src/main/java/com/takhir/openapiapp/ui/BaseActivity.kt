@@ -1,6 +1,8 @@
 package com.takhir.openapiapp.ui
 
+import android.content.Context
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import com.takhir.openapiapp.session.SessionManager
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Dispatchers.Main
@@ -74,6 +76,16 @@ abstract class BaseActivity : DaggerAppCompatActivity(),
           Log.e(TAG, "handleStateError: ${it.response.message}" )
         }
       }
+    }
+  }
+
+  override fun hideSoftKeyboard() {
+    if (currentFocus != null) {
+      val inputManager =
+        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+      inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+
     }
   }
 
