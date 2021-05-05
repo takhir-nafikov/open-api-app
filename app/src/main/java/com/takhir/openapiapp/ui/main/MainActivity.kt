@@ -15,10 +15,13 @@ import com.takhir.openapiapp.R
 import com.takhir.openapiapp.databinding.ActivityMainBinding
 import com.takhir.openapiapp.ui.BaseActivity
 import com.takhir.openapiapp.ui.auth.AuthActivity
+import com.takhir.openapiapp.ui.main.account.BaseAccountFragment
 import com.takhir.openapiapp.ui.main.account.ChangePasswordFragment
 import com.takhir.openapiapp.ui.main.account.UpdateAccountFragment
+import com.takhir.openapiapp.ui.main.blog.BaseBlogFragment
 import com.takhir.openapiapp.ui.main.blog.UpdateBlogFragment
 import com.takhir.openapiapp.ui.main.blog.ViewBlogFragment
+import com.takhir.openapiapp.ui.main.create_blog.BaseCreateBlogFragment
 import com.takhir.openapiapp.util.BottomNavController
 import com.takhir.openapiapp.util.setUpNavigation
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -64,6 +67,26 @@ class MainActivity : BaseActivity(),
 
   override fun onGraphChanged() {
     expandAppbar()
+    cancelActiveJobs()
+  }
+
+  private fun cancelActiveJobs() {
+    val fragments = bottomNavController.fragmentManager
+      .findFragmentById(bottomNavController.containerId)
+      ?.childFragmentManager
+      ?.fragments
+
+    if (fragments != null) {
+      for (fragment in fragments) {
+        when(fragment) {
+          is BaseAccountFragment -> fragment.cancelActiveJobs()
+          is BaseBlogFragment -> fragment.cancelActiveJobs()
+          is BaseCreateBlogFragment -> fragment.cancelActiveJobs()
+        }
+      }
+    }
+
+    displayProgressBar(false)
   }
 
   override fun onReselectNavItem(

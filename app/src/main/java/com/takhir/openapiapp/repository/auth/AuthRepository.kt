@@ -11,6 +11,7 @@ import com.takhir.openapiapp.models.AccountProperties
 import com.takhir.openapiapp.models.AuthToken
 import com.takhir.openapiapp.persistence.AccountPropertiesDao
 import com.takhir.openapiapp.persistence.AuthTokenDao
+import com.takhir.openapiapp.repository.JobManager
 import com.takhir.openapiapp.repository.NetworkBoundResource
 import com.takhir.openapiapp.session.SessionManager
 import com.takhir.openapiapp.ui.DataState
@@ -37,12 +38,11 @@ constructor(
   val sessionManager: SessionManager,
   val sharedPreferences: SharedPreferences,
   val sharedPrefEditor: SharedPreferences.Editor
-)
+): JobManager("AuthRepository")
 {
 
   private val TAG = "AppDebug"
 
-  private var repositoryJob: Job? = null
 
   fun attemptLogin(email: String, password: String): LiveData<DataState<AuthViewState>> {
     val loginFieldErrors = LoginFields(email, password).isValidForLogin()
@@ -106,8 +106,7 @@ constructor(
       }
 
       override fun setJob(job: Job) {
-        repositoryJob?.cancel()
-        repositoryJob = job
+        addJob("attemptLogin", job)
       }
 
       override fun loadFromCache(): LiveData<AuthViewState> {
@@ -194,8 +193,7 @@ constructor(
       }
 
       override fun setJob(job: Job) {
-        repositoryJob?.cancel()
-        repositoryJob = job
+        addJob("attemptRegistration", job)
       }
 
       override fun loadFromCache(): LiveData<AuthViewState> {
@@ -261,8 +259,7 @@ constructor(
         }
 
         override fun setJob(job: Job) {
-          repositoryJob?.cancel()
-          repositoryJob = job
+          addJob("checkPreviousAuthUser", job)
         }
 
         override fun loadFromCache(): LiveData<AuthViewState> {
@@ -307,8 +304,4 @@ constructor(
     }
   }
 
-  fun cancelActiveJobs(){
-    Log.d(TAG, "AuthRepository: Cancelling on-going jobs...")
-    repositoryJob?.cancel()
-  }
 }

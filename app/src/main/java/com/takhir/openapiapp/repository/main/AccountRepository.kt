@@ -8,6 +8,7 @@ import com.takhir.openapiapp.api.main.OpenApiMainService
 import com.takhir.openapiapp.models.AccountProperties
 import com.takhir.openapiapp.models.AuthToken
 import com.takhir.openapiapp.persistence.AccountPropertiesDao
+import com.takhir.openapiapp.repository.JobManager
 import com.takhir.openapiapp.repository.NetworkBoundResource
 import com.takhir.openapiapp.session.SessionManager
 import com.takhir.openapiapp.ui.DataState
@@ -28,10 +29,9 @@ constructor(
   val openApiMainService: OpenApiMainService,
   val accountPropertiesDao: AccountPropertiesDao,
   val sessionManager: SessionManager
-) {
+): JobManager("AccountRepository") {
   private val TAG = "AppDebug"
 
-  private var repositoryJob: Job? = null
 
   fun getAccountProperties(authToken: AuthToken): LiveData<DataState<AccountViewState>> {
     return object: NetworkBoundResource<AccountProperties, AccountProperties,  AccountViewState>(
@@ -93,8 +93,7 @@ constructor(
       }
 
       override fun setJob(job: Job) {
-        repositoryJob?.cancel()
-        repositoryJob = job
+        addJob("getAccountProperties", job)
       }
 
     }.asLiveData()
@@ -151,8 +150,7 @@ constructor(
       }
 
       override fun setJob(job: Job) {
-        repositoryJob?.cancel()
-        repositoryJob = job
+        addJob("saveAccountProperties", job)
       }
 
     }.asLiveData()
@@ -204,14 +202,10 @@ constructor(
       override suspend fun updateLocalDb(cacheObject: Any?) { }
 
       override fun setJob(job: Job) {
-        repositoryJob?.cancel()
-        repositoryJob = job
+        addJob("updatePassword", job)
       }
 
     }.asLiveData()
   }
 
-  fun cancelActiveJobs() {
-    Log.d(TAG, "AccountRepository: cancelActiveJobs")
-  }
 }

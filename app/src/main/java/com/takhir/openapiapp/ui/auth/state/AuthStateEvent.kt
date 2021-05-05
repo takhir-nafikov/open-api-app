@@ -15,3 +15,5 @@ data class RegisterAttemptEvent(
 ): AuthStateEvent()
 
 object CheckPreviousAuthEvent: AuthStateEvent()
+
+object None: AuthStateEvent()
