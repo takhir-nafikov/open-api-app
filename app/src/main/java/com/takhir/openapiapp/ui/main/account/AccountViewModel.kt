@@ -42,7 +42,14 @@ constructor(
       }
 
       is ChangePasswordEvent -> {
-        return AbsentLiveData.create()
+        return sessionManager.cachedToken.value?.let { authToken ->
+          accountRepository.updatePassword(
+            authToken,
+            stateEvent.currentPassword,
+            stateEvent.newPassword,
+            stateEvent.confirmPassword
+          )
+        } ?: AbsentLiveData.create()
       }
 
       is None -> {
