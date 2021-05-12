@@ -10,6 +10,7 @@ import com.takhir.openapiapp.R
 import com.takhir.openapiapp.databinding.LayoutBlogListItemBinding
 import com.takhir.openapiapp.models.BlogPost
 import com.takhir.openapiapp.util.DateUtils
+import com.takhir.openapiapp.util.GenericViewHolder
 
 class BlogListAdapter(
   private val interaction: Interaction? = null,
@@ -67,10 +68,38 @@ class BlogListAdapter(
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-    val binding =
-      LayoutBlogListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-    return BlogViewHolder(binding, requestManager, interaction)
+    when(viewType) {
+      NO_MORE_RESULTS -> {
+        return GenericViewHolder(
+          LayoutInflater.from(parent.context).inflate(
+            R.layout.layout_no_more_results,
+            parent,
+            false
+          )
+        )
+      }
+
+      BLOG_ITEN -> {
+        return BlogViewHolder(
+          LayoutBlogListItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+          ),
+          requestManager,
+          interaction
+        )
+      }
+
+      else -> {
+        return BlogViewHolder(
+          LayoutBlogListItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+          ),
+          requestManager,
+          interaction
+        )
+      }
+    }
   }
 
   override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -85,8 +114,18 @@ class BlogListAdapter(
     return differ.currentList.size
   }
 
-  fun submitList(list: List<BlogPost>) {
+  override fun getItemViewType(position: Int): Int {
+    if (differ.currentList[position].pk > -1) {
+      return BLOG_ITEN
+    }
+    return differ.currentList[position].pk // -1
+  }
+
+  fun submitList(list: List<BlogPost>, isQueryExhausted: Boolean) {
     val newList = list.toMutableList()
+    if (isQueryExhausted) {
+      newList.add(NO_MORE_RESULTS_BLOG_MARKER)
+    }
     differ.submitList(list)
   }
 
