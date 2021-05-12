@@ -8,10 +8,7 @@ import com.takhir.openapiapp.repository.main.BlogRepository
 import com.takhir.openapiapp.session.SessionManager
 import com.takhir.openapiapp.ui.BaseViewModel
 import com.takhir.openapiapp.ui.DataState
-import com.takhir.openapiapp.ui.main.blog.state.BlogSearchEvent
-import com.takhir.openapiapp.ui.main.blog.state.BlogStateEvent
-import com.takhir.openapiapp.ui.main.blog.state.BlogViewState
-import com.takhir.openapiapp.ui.main.blog.state.None
+import com.takhir.openapiapp.ui.main.blog.state.*
 import com.takhir.openapiapp.util.AbsentLiveData
 import javax.inject.Inject
 
@@ -34,6 +31,10 @@ constructor(
             viewState.value!!.blogFields.searchQuery
           )
         }?: AbsentLiveData.create()
+      }
+
+      is CheckAuthorOfBlogPost -> {
+        return AbsentLiveData.create()
       }
 
       is None -> {
@@ -59,6 +60,18 @@ constructor(
   fun setBlogList(blogList: List<BlogPost>) {
     val update = getCurrentViewStateOrNew()
     update.blogFields.blogList = blogList
+    _viewState.value = update
+  }
+
+  fun setBlogPost(blogPost: BlogPost) {
+    val update = getCurrentViewStateOrNew()
+    update.viewBlogFields.blogPost = blogPost
+    _viewState.value = update
+  }
+
+  fun setIsAuthorOfBlogPost(isAuthorOfBlogPost: Boolean) {
+    val update = getCurrentViewStateOrNew()
+    update.viewBlogFields.isAuthorOfBlogPost = isAuthorOfBlogPost
     _viewState.value = update
   }
 

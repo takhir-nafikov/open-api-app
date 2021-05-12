@@ -24,9 +24,6 @@ class BlogFragment : BaseBlogFragment(),
   BlogListAdapter.Interaction
 {
 
-  @Inject
-  lateinit var requestManager: RequestManager
-
   private lateinit var recyclerAdapter: BlogListAdapter
 
   private val binding: FragmentBlogBinding by viewBinding(CreateMethod.INFLATE)
@@ -41,10 +38,6 @@ class BlogFragment : BaseBlogFragment(),
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
-//    goViewBlogFragment.setOnClickListener {
-//      findNavController().navigate(R.id.action_blogFragment_to_viewBlogFragment)
-//    }
 
     initRecyclerView()
     subscribeObservers()
@@ -117,7 +110,8 @@ class BlogFragment : BaseBlogFragment(),
   }
 
   override fun onItemSelected(position: Int, item: BlogPost) {
-    Log.d(TAG, "BlogFragment, onItemSelected, BlogPost: $position, $item")
+    viewModel.setBlogPost(item)
+    findNavController().navigate(R.id.action_blogFragment_to_viewBlogFragment)
   }
 
 }
